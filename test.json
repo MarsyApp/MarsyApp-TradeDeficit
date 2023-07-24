@@ -1,0 +1,90 @@
+[
+	{
+		"_id": "61be350c3801d21e911ae2fd",
+		"_tpl": "5449016a4bdc2d6f028b456f",
+		"upd": {
+			"StackObjectsCount": 15000,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "0ec2e60aa9139ae1c08bfb31",
+		"_tpl": "590c661e86f7741e566b646a",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "a19d8aae988cab9029fd018b",
+		"_tpl": "590c661e86f7741e566b646a",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "c7fd9560be6e6bd8c042703a",
+		"_tpl": "544fb37f4bdc2dee738b4567",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "05b0dd2c6372cdf1063e1335",
+		"_tpl": "544fb37f4bdc2dee738b4567",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "c35e663c83a99a911c05bee0",
+		"_tpl": "544fb37f4bdc2dee738b4567",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "c275cf86a6db31fa0c91c53a",
+		"_tpl": "544fb37f4bdc2dee738b4567",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "19e3c2f4a533e0c816c550df",
+		"_tpl": "544fb3364bdc2d34748b456a",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "8b0e6f2348542bf680c03734",
+		"_tpl": "544fb3364bdc2d34748b456a",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "5f50d5ffd771fe2ca9bca940",
+		"_tpl": "544fb3364bdc2d34748b456a",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	},
+	{
+		"_id": "46f0225d3a9f6fe0328b98e5",
+		"_tpl": "544fb3364bdc2d34748b456a",
+		"upd": {
+			"StackObjectsCount": 1,
+			"SpawnedInSession": true
+		}
+	}
+]

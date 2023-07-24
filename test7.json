@@ -1,0 +1,94 @@
+[
+	{
+		"_id": "63d385d1b3eba6c95d0f00ee",
+		"intId": 40,
+		"user": {
+			"id": "54cb50c76803fa8b248b4571",
+			"memberType": 4,
+			"nickname": "Prapor",
+			"rating": 1,
+			"isRatingGrowing": true,
+			"avatar": "/files/trader/avatar/59b91ca086f77469a81232e4.jpg"
+		},
+		"root": "63d385d1b3eba6c95d0f00ee",
+		"items": [
+			{
+				"_id": "63d385d1b3eba6c95d0f00ee",
+				"_tpl": "5ac4cd105acfc40016339859",
+				"parentId": "",
+				"slotId": "hideout",
+				"upd": {
+					"UnlimitedCount": true,
+					"StackObjectsCount": 800000
+				}
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00ef",
+				"_tpl": "59c6633186f7740cf0493bb9",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_gas_block"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f0",
+				"_tpl": "5648b1504bdc2d9d488b4584",
+				"parentId": "63d385d1b3eba6c95d0f00ef",
+				"slotId": "mod_handguard"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f1",
+				"_tpl": "5ac7655e5acfc40016339a19",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_muzzle"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f2",
+				"_tpl": "5649ade84bdc2d1b2b8b4587",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_pistol_grip"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f3",
+				"_tpl": "5ac50da15acfc4001718d287",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_reciever"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f4",
+				"_tpl": "5ac72e475acfc400180ae6fe",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_sight_rear"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f5",
+				"_tpl": "5ac50c185acfc400163398d4",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_stock"
+			},
+			{
+				"_id": "63d385d1b3eba6c95d0f00f6",
+				"_tpl": "55d480c04bdc2d1d4e8b456a",
+				"parentId": "63d385d1b3eba6c95d0f00ee",
+				"slotId": "mod_magazine"
+			}
+		],
+		"requirements": [
+			{
+				"_tpl": "5449016a4bdc2d6f028b456f",
+				"count": 39037,
+				"onlyFunctional": false
+			}
+		],
+		"requirementsCost": 39037,
+		"itemsCost": 26181,
+		"summaryCost": 39037,
+		"startTime": 1683129769,
+		"endTime": 1683131567,
+		"loyaltyLevel": 3,
+		"sellInOnePiece": false,
+		"priority": false,
+		"locked": false,
+		"unlimitedCount": false,
+		"notAvailable": false,
+		"CurrentItemCount": 0
+	}
+]
