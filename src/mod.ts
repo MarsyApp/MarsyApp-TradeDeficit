@@ -339,32 +339,6 @@ class Mod implements IPreAkiLoadMod {
 			});
 		});
 
-		if (config.ragfair.showOnlyWhenAvailable) {
-			offers = this.getFilterHasItems(offers, sessionID);
-		}
-		return offers;
-	}
-
-	private getFilterHasItems(offers: IRagfairOffer[], sessionID: string): IRagfairOffer[] {
-		const profile = this.getProfile(sessionID);
-		const mayInventory = profile.characters.pmc.Inventory.items;
-		let have = 0;
-		let dontHave = 0;
-		offers = offers.filter((item) => {
-
-			if (!item.requirements.every((item) => {
-				return mayInventory.some((inventoryItem) => {
-					return inventoryItem._tpl === item._tpl;
-				});
-			})) {
-				dontHave++;
-				return false;
-			} else {
-				have++;
-				return true;
-			}
-		})
-
 		return offers;
 	}
 
