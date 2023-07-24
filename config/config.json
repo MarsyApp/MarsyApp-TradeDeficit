@@ -22,6 +22,9 @@
     "quests": {
         "enabled": true
     },
+    "craftItems": {
+        "enabled": true
+    },
     "ignoreList": [
         "-----------cases--------------",
         "59fb016586f7746d0d4b423a",
