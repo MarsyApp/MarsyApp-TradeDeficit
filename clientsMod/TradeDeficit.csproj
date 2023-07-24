@@ -56,7 +56,7 @@
 
 	<PropertyGroup>
 		<PostBuildEvent>
-			copy "J:\myMods\develop\MarsyApp-TradeDeficit\clientsMod\bin\Release\net472\MarsyApp-TradeDeficit.dll" "J:\downloads\SinglePlayerTarkov\BepInEx\plugins\MarsyApp-TradeDeficit.dll"
+			copy "J:\myMods\develop\MarsyApp-TradeDeficit\clientsMod\bin\Release\net472\MarsyApp-TradeDeficit.dll" "C:\games\EFT_3.5.8\BepInEx\plugins\MarsyApp-TradeDeficit.dll"
 		</PostBuildEvent>
 	</PropertyGroup>
 </Project>
