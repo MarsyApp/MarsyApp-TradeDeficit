@@ -27,6 +27,7 @@ import {QuestHelper} from "@spt-aki/helpers/QuestHelper";
 import {QuestStatus} from "@spt-aki/models/enums/QuestStatus";
 import {PreAkiModLoader} from "@spt-aki/loaders/PreAkiModLoader";
 import {IAcceptQuestRequestData} from "@spt-aki/models/eft/quests/IAcceptQuestRequestData";
+import {IQuest, Reward} from "@spt-aki/models/eft/common/tables/IQuest";
 
 class Mod implements IPreAkiLoadMod
 {
@@ -63,7 +64,8 @@ class Mod implements IPreAkiLoadMod
             }
         }, {frequency: "Always"});
 
-        if(config.ragfair.enabled) {
+        if (config.ragfair.enabled)
+        {
             container.afterResolution("RagfairController", (_t, result: RagfairController) =>
             {
                 const oldGetOffers = result.getOffers.bind(result);
@@ -87,8 +89,10 @@ class Mod implements IPreAkiLoadMod
             }, {frequency: "Always"});
         }
 
-        if(config.quests.enabled) {
-            container.afterResolution("QuestCallbacks", (_t, result: QuestCallbacks) => {
+        if (config.quests.enabled)
+        {
+            container.afterResolution("QuestCallbacks", (_t, result: QuestCallbacks) =>
+            {
                 const oldAcceptQuest = result.acceptQuest.bind(result);
                 const oldCompleteQuest = result.completeQuest.bind(result);
                 // const oldHandoverQuest = result.handoverQuest.bind(result);
@@ -96,7 +100,8 @@ class Mod implements IPreAkiLoadMod
                 {
                     return this.acceptQuest(pmcData, body, sessionID, oldAcceptQuest);
                 }
-                result.completeQuest = (pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string) => {
+                result.completeQuest = (pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string) =>
+                {
                     return this.completeQuest(pmcData, body, sessionID, oldCompleteQuest);
                 }
                 /*result.handoverQuest = (pmcData: IPmcData, body: IHandoverQuestRequestData, sessionID: string) =>
@@ -251,28 +256,44 @@ class Mod implements IPreAkiLoadMod
         return assort;
     }
 
-    private acceptQuest(pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string, oldAcceptQuest: (pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse {
-        const questHelper = Mod.container.resolve<QuestHelper>("QuestHelper");
-        const quest = questHelper.getQuestFromDb(body.qid, pmcData);
-        const questRewardItems = questHelper.getQuestRewardItems(quest, QuestStatus.Started);
-        const logger = Mod.container.resolve<ILogger>("WinstonLogger");
-        logger.info(JSON.stringify(questRewardItems));
-        this.unlockItems(questRewardItems, sessionID);
+    private acceptQuest(pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string, oldAcceptQuest: (pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse
+    {
+        this.unlockQuestsItems(pmcData, body.qid, sessionID, QuestStatus.Started);
 
         return oldAcceptQuest(pmcData, body, sessionID);
     }
 
-    private completeQuest(pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string, oldCompleteQuest: (pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse {
-        const questHelper = Mod.container.resolve<QuestHelper>("QuestHelper");
-        const quest = questHelper.getQuestFromDb(body.qid, pmcData);
-        const questRewardItems = questHelper.getQuestRewardItems(quest, QuestStatus.Success);
-        this.unlockItems(questRewardItems, sessionID);
+    private completeQuest(pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string, oldCompleteQuest: (pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse
+    {
+        this.unlockQuestsItems(pmcData, body.qid, sessionID, QuestStatus.Success);
         return oldCompleteQuest(pmcData, body, sessionID);
     }
 
-    /*private handoverQuest(pmcData: IPmcData, body: IHandoverQuestRequestData, sessionID: string, oldHandoverQuest: (pmcData: IPmcData, body: IHandoverQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse {
-        return oldHandoverQuest(pmcData, body, sessionID);
-    }*/
+    private unlockQuestsItems(pmcData: IPmcData, questId: string, sessionID: string, questStatus: QuestStatus)
+    {
+        const questHelper = Mod.container.resolve<QuestHelper>("QuestHelper");
+        const quest = questHelper.getQuestFromDb(questId, pmcData);
+        const questRewardItems = questHelper.getQuestRewardItems(quest, questStatus);
+        this.unlockItems(questRewardItems, sessionID);
+
+        const logger = Mod.container.resolve<ILogger>("WinstonLogger");
+        const questRewardAssortmentUnlock = this.getQuestRewardAssortmentUnlock(quest, questStatus);
+        logger.info(`[tradeDeficitItems] unlockQuestsItems: ${questId} ${questStatus} ${questRewardAssortmentUnlock.length}`);
+        logger.info(`[tradeDeficitItems] unlockQuestsItems: ${JSON.stringify(questRewardAssortmentUnlock)}`);
+
+        if (questRewardAssortmentUnlock.length > 0)
+        {
+            this.unlockItems(questRewardAssortmentUnlock, sessionID);
+        }
+    }
+
+    getQuestRewardAssortmentUnlock(quest: IQuest, questStatus: QuestStatus): Reward[]
+    {
+        return quest.rewards[QuestStatus[questStatus]]
+            .flatMap((reward: Reward) => reward.type === "AssortmentUnlock"
+                ? reward.items
+                : []);
+    }
 
     private sortOffers(offers: IRagfairOffer[], type: RagfairSort, direction?: number, oldSortOffers?: (offers: IRagfairOffer[], type: RagfairSort, direction?: number) => IRagfairOffer[]): IRagfairOffer[]
     {
@@ -304,7 +325,8 @@ class Mod implements IPreAkiLoadMod
             });
         });
 
-        if(config.ragfair.showOnlyWhenAvailable) {
+        if (config.ragfair.showOnlyWhenAvailable)
+        {
             offers = this.getFilterHasItems(offers, sessionID);
         }
         return offers;
@@ -321,7 +343,8 @@ class Mod implements IPreAkiLoadMod
 
             if (!item.requirements.every((item) =>
             {
-                return mayInventory.some((inventoryItem) => {
+                return mayInventory.some((inventoryItem) =>
+                {
                     return inventoryItem._tpl === item._tpl;
                 });
             }))
