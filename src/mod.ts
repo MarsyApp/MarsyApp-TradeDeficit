@@ -26,6 +26,7 @@ import {ICompleteQuestRequestData} from "@spt-aki/models/eft/quests/ICompleteQue
 import {QuestHelper} from "@spt-aki/helpers/QuestHelper";
 import {QuestStatus} from "@spt-aki/models/enums/QuestStatus";
 import {PreAkiModLoader} from "@spt-aki/loaders/PreAkiModLoader";
+import {IAcceptQuestRequestData} from "@spt-aki/models/eft/quests/IAcceptQuestRequestData";
 
 class Mod implements IPreAkiLoadMod
 {
@@ -88,13 +89,13 @@ class Mod implements IPreAkiLoadMod
 
         if(config.quests.enabled) {
             container.afterResolution("QuestCallbacks", (_t, result: QuestCallbacks) => {
-                // const oldAcceptQuest = result.acceptQuest.bind(result);
+                const oldAcceptQuest = result.acceptQuest.bind(result);
                 const oldCompleteQuest = result.completeQuest.bind(result);
                 // const oldHandoverQuest = result.handoverQuest.bind(result);
-                /*result.acceptQuest = (pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string) =>
+                result.acceptQuest = (pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string) =>
                 {
                     return this.acceptQuest(pmcData, body, sessionID, oldAcceptQuest);
-                }*/
+                }
                 result.completeQuest = (pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string) => {
                     return this.completeQuest(pmcData, body, sessionID, oldCompleteQuest);
                 }
@@ -250,9 +251,16 @@ class Mod implements IPreAkiLoadMod
         return assort;
     }
 
-    /*private acceptQuest(pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string, oldAcceptQuest: (pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse {
+    private acceptQuest(pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string, oldAcceptQuest: (pmcData: IPmcData, body: IAcceptQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse {
+        const questHelper = Mod.container.resolve<QuestHelper>("QuestHelper");
+        const quest = questHelper.getQuestFromDb(body.qid, pmcData);
+        const questRewardItems = questHelper.getQuestRewardItems(quest, QuestStatus.Started);
+        const logger = Mod.container.resolve<ILogger>("WinstonLogger");
+        logger.info(JSON.stringify(questRewardItems));
+        this.unlockItems(questRewardItems, sessionID);
+
         return oldAcceptQuest(pmcData, body, sessionID);
-    }*/
+    }
 
     private completeQuest(pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string, oldCompleteQuest: (pmcData: IPmcData, body: ICompleteQuestRequestData, sessionID: string) => IItemEventRouterResponse): IItemEventRouterResponse {
         const questHelper = Mod.container.resolve<QuestHelper>("QuestHelper");
